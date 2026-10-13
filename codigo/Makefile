@@ -1,0 +1,1 @@
+JOGO_OBJ : = $(BUILD) / mesh.o $(BUILD) / commit_reveal.o $(BUILD) / fase1.o $(BUILD) / fase2.o $(BUILD) / entrada.o
