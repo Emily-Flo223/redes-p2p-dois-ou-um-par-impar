@@ -1,3 +1,7 @@
+#include "fase2.hpp"
+
+// Fase 2 (Pessoa C): Par ou Ímpar entre finalistas e envio ao observador
+jogo::jogar_fase2(mesh, fase1, ler);
 // game_peer.cpp — Nó Jogador (Seção 3.2 do enunciado).
 // Uso: ./game_peer <ip_servidor> <porta_servidor> <ip_escuta_p2p> <porta_escuta_p2p> <nome> <timeout_jogada>
 //

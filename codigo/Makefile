@@ -1,3 +1,4 @@
+JOGO_OBJ : = $(BUILD) / mesh.o $(BUILD) / commit_reveal.o $(BUILD) / fase1.o $(BUILD) / fase2.o $(BUILD) / entrada.o
 # Makefile — Trabalho Prático "Dois ou Um" + "Par ou Ímpar" P2P (C++17, Linux)
 # Uso:  make          compila rendezvous_server e game_peer
 #       make test     compila e roda os testes de framing/protocolo/cripto
