@@ -15,6 +15,7 @@
 #include "crypto.hpp"
 #include "entrada.hpp"
 #include "fase1.hpp"
+#include "crypto.hpp"
 #include "framing.hpp"
 #include "log.hpp"
 #include "mesh.hpp"
@@ -130,6 +131,13 @@ int main(int argc, char** argv) {
         std::fprintf(stderr, "[%s] partida abortada: %s\n", nome.c_str(), e.what());
         mesh.fechar_tudo();
         return 3;
+        // TODO(B): const std::string eliminado = jogar_fase1(mesh, ...);   // src/fase1.cpp
+        // TODO(C): jogar_fase2(mesh, eliminado, ...);                       // src/fase2.cpp
+        util::logf(nome.c_str(), "rede pronta (partida %s); fases do jogo ainda não implementadas",
+                   mesh.partida_id().c_str());
+
+        // ---------- 4. Encerramento ----------
+        mesh.fechar_tudo();  // FIN/ACK em todas as conexões P2P, depois close()
     } catch (const std::exception& e) {
         std::fprintf(stderr, "[%s] erro: %s\n", nome.c_str(), e.what());
         mesh.fechar_tudo();

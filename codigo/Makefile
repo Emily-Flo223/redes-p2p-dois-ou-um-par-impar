@@ -24,6 +24,7 @@ rendezvous_server: $(BUILD)/rendezvous_server.o $(COMMON_OBJ)
 JOGO_OBJ := $(BUILD)/mesh.o $(BUILD)/commit_reveal.o $(BUILD)/fase1.o $(BUILD)/entrada.o
 
 game_peer: $(BUILD)/game_peer.o $(JOGO_OBJ) $(COMMON_OBJ)
+game_peer: $(BUILD)/game_peer.o $(BUILD)/mesh.o $(COMMON_OBJ)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(BUILD)/test_framing: $(BUILD)/test_framing.o $(COMMON_OBJ)
