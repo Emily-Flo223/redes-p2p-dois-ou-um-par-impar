@@ -11,6 +11,10 @@
 #include <cstdlib>
 #include <string>
 
+#include "commit_reveal.hpp"
+#include "crypto.hpp"
+#include "entrada.hpp"
+#include "fase1.hpp"
 #include "crypto.hpp"
 #include "framing.hpp"
 #include "log.hpp"
@@ -103,6 +107,30 @@ int main(int argc, char** argv) {
         //   mesh.prazo_padrao()            -> max(timeouts) + 5 s
         // Mensagens sempre montadas com proto::make_* (protocol.hpp).
         //
+        // Leitura da jogada: teclado com prazo timeout_jogada (entrada.hpp).
+        const jogo::LerJogada ler = [&](int min, int max, const std::string& pergunta) {
+            return jogo::ler_jogada_teclado(nome, pergunta, min, max, timeout);
+        };
+
+        // Fase 1 (Pessoa B): Commit-Reveal entre os 3, repete em empate.
+        const jogo::ResultadoFase1 fase1 = jogo::jogar_fase1(mesh, ler);
+
+        // TODO(C): jogar_fase2(mesh, fase1, ler);                          // src/fase2.cpp
+        //   Finalistas: fase1.finalistas (ordem crescente: [0] = PAR, [1] = ÍMPAR).
+        //   Commit-Reveal da Fase 2: jogo::etapa_commit_reveal(mesh, 2, 1, jogada, {adversario}, 0, 5).
+        util::logf(nome.c_str(), "fase 1 concluída (eliminado: %s); fase 2 ainda não implementada",
+                   fase1.eliminado.c_str());
+
+        // ---------- 4. Encerramento ----------
+        mesh.fechar_tudo();  // FIN/ACK em todas as conexões P2P, depois close()
+    } catch (const jogo::FraudeError& e) {
+        std::fprintf(stderr, "[%s] FRAUDE DETECTADA: %s\n", nome.c_str(), e.what());
+        mesh.fechar_tudo();
+        return 2;
+    } catch (const jogo::TimeoutError& e) {
+        std::fprintf(stderr, "[%s] partida abortada: %s\n", nome.c_str(), e.what());
+        mesh.fechar_tudo();
+        return 3;
         // TODO(B): const std::string eliminado = jogar_fase1(mesh, ...);   // src/fase1.cpp
         // TODO(C): jogar_fase2(mesh, eliminado, ...);                       // src/fase2.cpp
         util::logf(nome.c_str(), "rede pronta (partida %s); fases do jogo ainda não implementadas",
